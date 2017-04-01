@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>simple 2D WebGL skeleton</title>
+
+<script id="vshader" type="x-shader/x-vertex">
+precision mediump float;
+
+attribute vec2 vTexCoord;
+attribute vec4 vPosition;
+
+uniform float aspect_ratio;
+
+varying vec2 v_texCoord;
+
+#define M_PI 3.1415926535897932384626433832795
+
+void main()
+{
+    gl_Position = vPosition;
+
+    v_texCoord.x = vTexCoord.x*aspect_ratio;
+    v_texCoord.y = vTexCoord.y;
+}
+</script>
+
+<script id="fshader" type="x-shader/x-fragment">
+precision mediump float;
+
+//uniform sampler2D sampler2d;
+
+varying vec2 v_texCoord;
+
+void main()
+{
+    vec2 rg = v_texCoord;
+    //rg = 0.5* ( v_texCoord+1.0 );
+    float b = 1.0-sqrt(v_texCoord.s*v_texCoord.s + v_texCoord.t*v_texCoord.t);
+
+    gl_FragColor.rg = rg-floor(rg);
+    gl_FragColor.b = b;
+    gl_FragColor.a=1.0; // do NOT forget this or your pixels will be invisible
+}
+</script>
+
+<script src="khronos/webgl-utils.js" type="application/javascript"> </script>
+<script src="khronos/J3DI.js" type="application/javascript"> </script>
+<script src="bob-webgl.js" type="application/javascript"> </script>
+<script src="uvsquare.js" type="application/javascript"> </script>
+
+
+</head>
+
+<body onload="start()">
+<hr>
+<canvas id="example" width="800" height="600">
+    If you're seeing this your web browser doesn't support the &lt;canvas>&gt; element. Ouch!
+</canvas>
+<hr>
+
+</body>
+
+</html>
