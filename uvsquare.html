@@ -36,9 +36,10 @@ void main()
 {
     vec2 rg = v_texCoord;
     //rg = 0.5* ( v_texCoord+1.0 );
+    rg = rg - floor(rg);
     float b = 1.0-sqrt(v_texCoord.s*v_texCoord.s + v_texCoord.t*v_texCoord.t);
 
-    gl_FragColor.rg = rg-floor(rg);
+    gl_FragColor.rg = rg;
     gl_FragColor.b = b;
     gl_FragColor.a=1.0; // do NOT forget this or your pixels will be invisible
 }
