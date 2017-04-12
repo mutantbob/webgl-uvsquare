@@ -62,6 +62,9 @@ function UVSquare(gl, elt)
 UVSquare.prototype.drawPicture = function()
 {
     var gl = this.gl
+    if (triggerSnapshot) {
+	gl = WebGLUtils.setupWebGL(this.element, {'preserveDrawingBuffer':true} )
+    }
 
     var aspect = this.element.clientWidth/ this.element.clientHeight
     gl.viewport(0, 0, this.element.clientWidth, this.element.clientHeight);
@@ -71,8 +74,25 @@ UVSquare.prototype.drawPicture = function()
     gl.uniform1f(this.shader.UL.aspect_ratio, aspect);
 
     this.square.drawElements(gl)
+
+    if (triggerSnapshot) {
+	triggerSnapshot = 0
+
+	var url = this.element.toDataURL()
+	console.log(url)
+	var link = document.getElementById("snapshot")
+	link.href = url
+    }
 }
 
+//
+
+triggerSnapshot = 0
+
+function take_snapshot()
+{
+    triggerSnapshot = 1
+}
 
 function start()
 {
